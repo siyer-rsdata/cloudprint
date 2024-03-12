@@ -1,0 +1,15 @@
+[align: centre][font: a]\
+[image: url {LOGO_IMAGE_URL};
+    width 60%;
+    min-width 48mm]\
+[magnify: width 2; height 1]
+{ORDER_RECEIPT_TITLE}
+{ORDER_DATETIME}
+
+[magnify: width 3; height 2]Columns[magnify]
+[align: left]\
+
+{ORDER_ITEM_ROWS}
+{FOOTER_MESSAGE}
+
+[cut: feed; partial]
