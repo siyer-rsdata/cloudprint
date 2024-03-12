@@ -29,7 +29,6 @@ class Auth(object):
         return cls._self
 
     def __init__(self):
-        print(f"Inside Auth class Init: AUTHORIZATION_ACTIVE_TIME: {get_constant("AUTHORIZATION_ACTIVE_TIME")}")
         self.auth_add_time = get_constant("AUTHORIZATION_ACTIVE_TIME")
 
     def is_authorized(self, authorization: Header, restaurant_code: str) -> AuthorizationResponse:
