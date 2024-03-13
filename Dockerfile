@@ -3,7 +3,15 @@ FROM python:3.12.1
 # First stage: Copy and extract binary file from GCS
 FROM google/cloud-sdk:latest
 
+ENV CLOUD_PRINTER_ENV=int
+
 COPY / /app/
+
+WORKDIR /app/conf
+
+RUN gsutil cp gs://cloudservice-bucket/.env_constants.int .env_constants.int
+
+RUN cat .env_constants.int
 
 # Install necessary packages
 RUN apt-get update && \
@@ -19,6 +27,7 @@ RUN gsutil cp gs://cloudservice-bucket/cputil-linux-x64_v112.tar.gz cputil-linux
 RUN tar -xzf cputil-linux-x64_v112.tar.gz && \
     rm cputil-linux-x64_v112.tar.gz
 
+WORKDIR /app/cputil
 
 # Next Stage
 
@@ -29,8 +38,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r  requirements.txt
 
 RUN ls --recursive /app/cputil/cputil-linux-x64/
-
-ENV CLOUD_PRINTER_ENV=int
 
 WORKDIR /app
 
