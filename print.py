@@ -30,6 +30,7 @@ async def on_startup():
 async def fetch_orders():
     await cloudprint_orders()
 
-
+'''
 if __name__ == "__main__":
     uvicorn.run("print:app", reload=True)
+'''
