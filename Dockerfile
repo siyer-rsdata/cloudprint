@@ -33,5 +33,9 @@ RUN ls --recursive /app/cputil/cputil-linux-x64/
 
 ENV CLOUD_PRINTER_ENV=int
 
+pwd
+
+RUN ls
+
 EXPOSE 8000
 CMD ["uvicorn", "print:app", "--host", "0.0.0.0", "--port", "8000"]
