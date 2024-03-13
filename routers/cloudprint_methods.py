@@ -24,8 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 @router.get("/{restaurant_code}")
-def get_print_job(restaurant_code: str, uid: str | None = None, type: str | None = None,
-                  mac: str | None = None, token: str | None = None):
+def get_print_job(restaurant_code: str):
 
     auth_response = auth.is_authorized(authorization=None, restaurant_code=restaurant_code.lower())
 
