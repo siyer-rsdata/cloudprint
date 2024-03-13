@@ -43,9 +43,9 @@ class PotlamBackend:
 
         response = self.do_post(service_url)
 
-    def fetch_cloudprint_orders(self) -> CloudPrintOrdersModel | None:
+    def fetch_cloudprint_orders(self) -> CloudPrintOrdersModel:
 
-        orders = None
+        orders: CloudPrintOrdersModel
 
         # Create the service url from the env constants
         service_url = get_constant("POTLAM_BACKEND_HOST") + get_constant("POTLAM_PRINT_LIST")
