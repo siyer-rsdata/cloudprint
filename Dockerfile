@@ -30,7 +30,7 @@ RUN ls --recursive /app/cputil/cputil-linux-x64/
 
 ENV CLOUD_PRINTER_ENV=int
 
-WORKDIR /
+WORKDIR /root
 
 RUN pwd
 
