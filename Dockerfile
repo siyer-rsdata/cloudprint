@@ -10,8 +10,6 @@ RUN apt-get update && \
 
 WORKDIR /app/cputil
 
-RUN pwd
-
 # Copy the CPUtil tar.gz file from GCS
 RUN gsutil cp gs://cloudservice-bucket/cputil-linux-x64_v112.tar.gz cputil-linux-x64_v112.tar.gz
 
@@ -19,7 +17,6 @@ RUN gsutil cp gs://cloudservice-bucket/cputil-linux-x64_v112.tar.gz cputil-linux
 RUN tar -xzf cputil-linux-x64_v112.tar.gz && \
     rm cputil-linux-x64_v112.tar.gz
 
-RUN pwd
 
 # Next Stage
 
@@ -32,6 +29,8 @@ RUN pip install --no-cache-dir -r  requirements.txt
 RUN ls --recursive /app/cputil/cputil-linux-x64/
 
 ENV CLOUD_PRINTER_ENV=int
+
+WORKDIR /
 
 RUN pwd
 
