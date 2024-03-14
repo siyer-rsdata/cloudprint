@@ -65,16 +65,16 @@ def get_print_job(restaurant_code: str):
             logger.info(f"cp file content for order.id: {order.restaurant_code}:{order.order_id}")
             logger.info(f"{content}")
 
-            return Response(status_code=200, media_type="text/vnd.star.markup", content=content)
+            return Response(content, status_code=200, media_type="text/vnd.star.markup")
 
         else:
             message = "No more orders in queue for " + restaurant_code
-            return Response(status_code=200, media_type="text/plain", content=message)
+            return Response(content=message, status_code=200, media_type="text/plain")
 
     else:
         # CloudPrnt request needs to be authenticated, before any service calls can be placed.
         # Set status_code = 401, if authentication required.
-        response = Response(status_code=auth_response.http_status, content=auth_response.to_json())
+        response = Response(content=auth_response.to_json(), status_code=auth_response.http_status)
         response.headers["WWW-Authenticate"] = "Basic realm=\"Authentication Required\""
 
     return response
