@@ -27,8 +27,6 @@ RUN gsutil cp gs://cloudservice-bucket/cputil-linux-x64_v112.tar.gz cputil-linux
 RUN tar -xzf cputil-linux-x64_v112.tar.gz && \
     rm cputil-linux-x64_v112.tar.gz
 
-WORKDIR /app/cputil
-
 # Next Stage
 
 ENV PYTHONUNBUFFERED True
@@ -37,13 +35,7 @@ RUN pip install --upgrade pip
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r  requirements.txt
 
-RUN ls --recursive /app/cputil/cputil-linux-x64/
-
 WORKDIR /app
-
-RUN pwd
-
-RUN ls
 
 EXPOSE 8000
 CMD ["uvicorn", "print:app", "--host", "0.0.0.0", "--port", "8000"]
