@@ -92,7 +92,7 @@ def post_poll(restaurant_code: str,
 
         # construct the PostPollResponse object.
         response = PostPollResponse(jobReady=str(jobReady).lower(),
-                                    mediaTypes=["text/vnd.star.markup"],
+                                    mediaTypes=["application/vnd.star.starprnt"],
                                     deleteMethod="GET"
                                     )
 
