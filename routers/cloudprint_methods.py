@@ -37,10 +37,8 @@ def get_print_job(restaurant_code: str):
 
             order = queue.pop_order(restaurant_code.lower())
 
-            logger.info(f"order popped: restaurant:{order.restaurant_code} uuid:{order.uuid} "
-                        f"cloud_print_id:{order.cloud_print_id} order_id:{order.order_id} "
-                        f"logo:{order.restaurant_details.logo_url} title:{order.restaurant_details.name} "
-                        f"footer message:{order.restaurant_details.message} "
+            logger.info(f"Popped order from queue - restaurant_code:{order.restaurant_code} - uuid:{order.uuid} - "
+                        f"cloud_print_id:{order.cloud_print_id} - order_id:{order.order_id} - "
                         f"date/time:{order.print_order.orderdate} {order.print_order.ordertime}")
 
             cp_file = create_print_file(

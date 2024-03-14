@@ -28,7 +28,7 @@ def init():
         level=logging.DEBUG,
 
         # Specify the log message format
-        format='%(levelname)s: %(message)s'
+        format='%(levelname)s - %(message)s'
     )
 
 
