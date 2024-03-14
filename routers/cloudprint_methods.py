@@ -93,9 +93,7 @@ def post_poll(restaurant_code: str,
         # construct the PostPollResponse object.
         response = PostPollResponse(jobReady=str(jobReady).lower(),
                                     mediaTypes=["text/vnd.star.markup"],
-                                    jobToken="dummy-token-to-be-replaced-with-the-actual-order's-token",
-                                    deleteMethod="DELETE",
-                                    display=[{"name": "dummy-device-name", "message": "some dummy message."}]
+                                    deleteMethod="GET"
                                     )
 
         logger.info(f"resp json: {response.to_json()}")
