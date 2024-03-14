@@ -21,7 +21,7 @@ def init():
         level=logging.DEBUG,
 
         # Specify the log message format
-        format='%(asctime)s - %(levelname)s - %(message)s'
+        format='%(levelname)s - %(message)s'
     )
 
     # Create folder to save logs
