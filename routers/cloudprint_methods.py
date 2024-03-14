@@ -62,6 +62,9 @@ def get_print_job(restaurant_code: str):
             with open(cp_file, "rb") as f:
                 content = f.read()
 
+            logger.info(f"cp file content for order.id: {order.restaurant_code}:{order.order_id}")
+            logger.info(f"{content}")
+
             return Response(status_code=200, media_type="text/vnd.star.markup", content=content)
 
         else:
