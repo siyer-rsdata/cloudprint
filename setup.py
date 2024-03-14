@@ -21,7 +21,7 @@ def init():
     # Configure logging
     logging.basicConfig(
         # Specify the file to which logs will be written
-        filename='logs\\cloudprint.log',
+        filename=os.getenv('CLOUDPRINT_LOG'),
 
         # Set the logging level to DEBUG to capture all levels of messages
         level=logging.DEBUG,
