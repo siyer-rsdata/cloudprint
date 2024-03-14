@@ -12,24 +12,23 @@ def init():
     # Initialize Authorization
     Auth()
 
-    # Create folder to save logs
-    create_folder("logs")
-
-    # Create folder to save temporary .stm and .cp files for each order that is to be sent to the printer.
-    create_folder("tmp")
-
     # Configure logging
     logging.basicConfig(
         # Specify the file to which logs will be written
-        # filename='logs\\cloudprint.log',
         filename=os.getenv('CLOUDPRINT_LOG'),
 
         # Set the logging level to DEBUG to capture all levels of messages
         level=logging.DEBUG,
 
         # Specify the log message format
-        format='%(levelname)s - %(message)s'
+        format='%(asctime)s - %(levelname)s - %(message)s'
     )
+
+    # Create folder to save logs
+    create_folder("logs")
+
+    # Create folder to save temporary .stm and .cp files for each order that is to be sent to the printer.
+    create_folder("tmp")
 
 
 def create_folder(folder_name: str):
