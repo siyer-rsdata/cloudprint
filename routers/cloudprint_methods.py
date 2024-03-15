@@ -65,7 +65,7 @@ def get_print_job(restaurant_code: str):
             logger.info(f"cp file content for order.id: {order.restaurant_code}:{order.order_id}")
             logger.info(f"{content}")
 
-            return Response(content, status_code=200, media_type="text/vnd.star.markup")
+            return Response(content, status_code=200, media_type="application/vnd.star.starprnt")
 
         else:
             message = "No more orders in queue for " + restaurant_code
