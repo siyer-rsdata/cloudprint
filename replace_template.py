@@ -83,6 +83,7 @@ def create_print_file(uuid: str, logo_url: str, title: str, datetime: str, print
     order_values = {
         "LOGO_IMAGE_URL": logo_url,
         "ORDER_RECEIPT_TITLE": title,
+        "ORDER_ID": print_order.order_id,
         "ORDER_DATETIME": datetime,
         "ORDER_ITEM_ROWS": order_items,
         "FOOTER_MESSAGE": footer
