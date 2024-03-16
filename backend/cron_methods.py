@@ -1,8 +1,8 @@
 import uuid
 import logging
 
-from backend.potlam_backend import PotlamBackend, bulk_update_status
-from backend.schemas import PotlamOrderPrintStatus, CloudPrintOrderStatus
+from backend.potlam_backend import PotlamBackend
+from backend.schemas import CloudPrintOrderStatus
 from backend.services import PotlamOrdersListService
 from libs.constants import get_constant
 from database.cloudprint_db import is_order_in_db, delete_order_from_db, add_orders_to_db

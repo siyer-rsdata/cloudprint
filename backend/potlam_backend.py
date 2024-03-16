@@ -43,9 +43,7 @@ class PotlamBackend:
 
         response = self.do_post(service_url)
 
-    def fetch_cloudprint_orders(self) -> CloudPrintOrdersModel:
-
-        orders: CloudPrintOrdersModel
+    def fetch_cloudprint_orders(self):
 
         # Create the service url from the env constants
         service_url = get_constant("POTLAM_BACKEND_HOST") + get_constant("POTLAM_PRINT_LIST")
@@ -58,6 +56,9 @@ class PotlamBackend:
             # response.text is empty if there are no more pending orders to print in POTLAM database.
             if len(response.text) > 0:
                 orders = CloudPrintOrdersModel.parse_raw(response.text)
+
+            else:
+                orders = None
 
             return orders
 
