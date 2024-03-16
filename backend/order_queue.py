@@ -34,8 +34,8 @@ class OrderQueue:
         # Add this order to the queue of this restaurant
         self.queues[order.restaurant_code.lower()] = queue
 
-        logger.info(f"Order added to CloudPrint Queue for [restaurant_code:{order.restaurant_code}] "
-                    f"cloud_print_id:{order.cloud_print_id} order_id:{order.order_id}")
+        logger.info(f"Order added to CloudPrint Queue [{order.restaurant_code}] "
+                    f"[order_id:{order.order_id}] [cloudprint_id:{order.cloud_print_id}]")
 
     def get_orders(self, restaurant_code: str) -> deque:
         return self.queues.get(restaurant_code)

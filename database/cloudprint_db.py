@@ -51,7 +51,7 @@ def update_order_status_in_db(uuid: str, status: str):
         session.commit()
         session.close()
 
-        logger.info(f"Updated status of order with ID: {uuid} to status: {status}")
+        # logger.info(f"Updated status of order with ID: {uuid} to status: {status}")
 
 
 def delete_order_from_db(restaurant_code: str, order_id: str):
@@ -63,7 +63,7 @@ def delete_order_from_db(restaurant_code: str, order_id: str):
         session.commit()
         session.close()
 
-        logger.info(f"Deleted order: {restaurant_code}:{order_id} from the database.")
+        # logger.info(f"Deleted order [{restaurant_code}] [order_id:{order_id}] from the database.")
 
 
 def is_order_in_db(restaurant_code: str, order_id: str) -> bool:
@@ -74,8 +74,8 @@ def is_order_in_db(restaurant_code: str, order_id: str) -> bool:
                                        CloudPrintOrderStatus.order_id == order_id).count()
 
         if count > 0:
-            logger.info(f"Order {restaurant_code}:{order_id} found in the Database.")
+            # logger.info(f"Order {restaurant_code}:{order_id} found in the Database.")
             return True
         else:
-            logger.info(f"Order {restaurant_code}:{order_id} Not found in the Database.")
+            # logger.info(f"Order [{restaurant_code}] [order_id:{order_id}] Not found in the Database.")
             return False

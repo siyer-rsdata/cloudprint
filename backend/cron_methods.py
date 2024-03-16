@@ -31,7 +31,7 @@ async def cloudprint_orders():
 
     if orders is not None:
 
-        logger.info(f"Adding orders to queues. Found: {len(orders.body)} new orders to print.")
+        logger.info(f"Received [{len(orders.body)}] new orders from POTLAM backend, Adding them to queues.")
 
         for order in orders.body:
 
@@ -82,16 +82,16 @@ async def cloudprint_orders():
                     )
 
                 else:
-                    logger.info(
-                        f"Order for {order.restaurant_code} order_id: {order.order_id} already exists in queue, skipped.")
+                    logger.info(f"Order [{order.restaurant_code}] [order_id:{order.order_id}] "
+                                f"[cloudprint_id:{order.cloud_print_id}] already in queue, skipped.")
 
             else:
-                logger.info(f"Order skipped, contains empty print_order for "
-                            f"[restaurant_code:{order.restaurant_code}] "
-                            f"cloud_print_id:{order.cloud_print_id} order_id:{order.order_id}")
+                logger.info(f"Order contains empty print_order element for "
+                            f"[{order.restaurant_code}] [order_id:{order.order_id}] "
+                            f"[cloudprint_id:{order.cloud_print_id}], skipped.")
 
     else:
-        logger.info("No new orders received from POTLAM backend for printing.")
+        logger.info("No new orders received from the POTLAM backend service.")
 
     # if len(in_progress_orders) > 0:
         # Update status to: CLOUDPRINT_STATUS_PRINT_IN_PROGRESS for any valid orders.

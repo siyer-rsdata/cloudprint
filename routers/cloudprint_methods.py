@@ -37,9 +37,9 @@ def get_print_job(restaurant_code: str):
 
             order = queue.pop_order(restaurant_code.lower())
 
-            logger.info(f"Popped order from queue - restaurant_code:{order.restaurant_code} - uuid:{order.uuid} - "
-                        f"cloud_print_id:{order.cloud_print_id} - order_id:{order.order_id} - "
-                        f"date/time:{order.print_order.orderdate} {order.print_order.ordertime}")
+            logger.info(f"Order popped from CloudPrint Queue [{order.restaurant_code}] [order_id:{order.order_id}] "
+                        f"[cloudprint_id:{order.cloud_print_id}] "
+                        f"[order date/time:{order.print_order.orderdate} {order.print_order.ordertime}]")
 
             cp_file = create_print_file(
                 uuid=order.uuid,
@@ -62,8 +62,9 @@ def get_print_job(restaurant_code: str):
             with open(cp_file, "rb") as f:
                 content = f.read()
 
-            logger.info(f"cp file content for order.id: {order.restaurant_code}:{order.order_id}")
-            logger.info(f"{content}")
+            logger.info(f"Printing order [{restaurant_code}] [order.id:{order.order_id}] "
+                        f"[cloudprint_id:{order.cloud_print_id}]")
+            logger.info(f"No of orders in queue for [{restaurant_code}]: [{queue.length(restaurant_code)}]")
 
             return Response(content, status_code=200, media_type="application/vnd.star.starprnt")
 
@@ -90,6 +91,7 @@ def post_poll(restaurant_code: str,
 
         # Check whether there are orders available in the queue to be printed
         jobReady = queue.is_job_ready(restaurant_code)
+        queue_len = queue.length(restaurant_code)
 
         is_order_available_in_db(restaurant_code)
 
@@ -99,7 +101,7 @@ def post_poll(restaurant_code: str,
                                     deleteMethod="GET"
                                     )
 
-        logger.info(f"resp json: {response.to_json()}")
+        logger.info(f"No of orders in queue for [{restaurant_code}]: [{queue_len}]")
 
         response = Response(content=response.to_json(), status_code=status.HTTP_200_OK)
 

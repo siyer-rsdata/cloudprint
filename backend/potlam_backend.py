@@ -86,4 +86,6 @@ def update_status(cloud_print_id: str, status: str):
 
     potlam_backend = PotlamBackend(params=update_order_status)
 
+    logger.info(f"Updating status of order [cloudprint_id:{cloud_print_id}] to [status:{status}] in POTLAM backend.")
+
     potlam_backend.update_order_status()
