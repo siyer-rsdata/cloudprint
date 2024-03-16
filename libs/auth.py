@@ -1,4 +1,4 @@
-from fastapi import Header
+from fastapi import Header, status
 from pydantic.dataclasses import dataclass
 
 import datetime
@@ -36,7 +36,7 @@ class Auth(object):
         # check if this restaurant has an authentication that is currently active.
         if self.is_active(restaurant_code):
             auth_response = AuthorizationResponse(
-                status=True, http_status=200, status_message="Authenticated using active time token.")
+                status=True, http_status=status.HTTP_200_OK, status_message="Authenticated using active time token.")
         else:
             # Authorization header is not Empty, it is supplied by the printer.
             if authorization is not None:
@@ -49,15 +49,15 @@ class Auth(object):
                     self.update_auth_cutoff_time(restaurant_code)
 
                     auth_response = AuthorizationResponse(
-                        status=True, http_status=200, status_message="Authenticated using authorization header.")
+                        status=True, http_status=status.HTTP_200_OK, status_message="Authenticated using authorization header.")
 
                 else:
                     auth_response = AuthorizationResponse(
-                        status=False, http_status=401, status_message="Authentication Failed. Invalid Credentials.")
+                        status=False, http_status=status.HTTP_401_UNAUTHORIZED, status_message="Authentication Failed. Invalid Credentials.")
 
             else:
                 auth_response = AuthorizationResponse(
-                    status=False, http_status=401, status_message="Authentication Required.")
+                    status=False, http_status=status.HTTP_401_UNAUTHORIZED, status_message="Authentication Required.")
 
         return auth_response
 

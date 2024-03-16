@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Header, status
 from fastapi.responses import Response
 
 import logging
@@ -80,7 +80,7 @@ def get_print_job(restaurant_code: str):
     return response
 
 
-@router.post("/{restaurant_code}", response_model=PostPollResponse, status_code=200)
+@router.post("/{restaurant_code}", response_model=PostPollResponse, status_code=status.HTTP_200_OK)
 def post_poll(restaurant_code: str,
               request: PostPollRequest,
               Authorization: Optional[str] = Header(None)) -> PostPollResponse:
@@ -101,7 +101,7 @@ def post_poll(restaurant_code: str,
 
         logger.info(f"resp json: {response.to_json()}")
 
-        response = Response(status_code=200, content=response.to_json())
+        response = Response(content=response.to_json(), status_code=status.HTTP_200_OK)
 
     else:
 
