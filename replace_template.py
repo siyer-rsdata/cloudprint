@@ -1,8 +1,14 @@
 import os.path
 
+import logging
+
 from backend.schemas import PrintOrderItem, Toppings, Topping
+from database.cloudprint_db import delete_order_from_db
 from libs.constants import get_constant
 from libs.cputil import create_cp_order
+
+# Create a logger
+logger = logging.getLogger(__name__)
 
 
 # Replace placeholders from the template file with this order's values
@@ -75,7 +81,8 @@ def extract_order_details(print_order: PrintOrderItem) -> list:
     return order_item_rows
 
 
-def create_print_file(uuid: str, logo_url: str, title: str, datetime: str, print_order: PrintOrderItem, footer: str) -> str:
+def create_print_file(uuid: str, logo_url: str, title: str, datetime: str, print_order: PrintOrderItem,
+                      footer: str) -> str:
     # Print order template file
 
     order_items = extract_order_details(print_order)
@@ -103,3 +110,28 @@ def create_print_file(uuid: str, logo_url: str, title: str, datetime: str, print
     cp_file = create_cp_order(tmp_file=tmp_file, cp_file=cp_file)
 
     return cp_file
+
+
+def cleanup(restaurant_code: str, job_token: str):
+    # Split the job_token by underscores and take the last element (uuid) which is used to create the temporary files.
+    # job_token takes the form: <restaurant_code>_<order_id>_<cloud_print_id>_<uuid>
+
+    uuid = job_token.split("_")[-1]
+    order_id = job_token.split("_")[1]
+
+    logger.info(f"Received DELETE for order. [{restaurant_code}] [order.id:{order_id}] [uuid:{uuid}]. "
+                f"Cleaning up by removing tmp files and Database entry...")
+
+    stm_file = os.path.join(get_constant("CLOUDPRINT_ORDER_TEMP_FOLDER"), uuid + ".stm")
+    cp_file = os.path.join(get_constant("CLOUDPRINT_ORDER_TEMP_FOLDER"), uuid + ".cp")
+
+    # Check if the stm file exists, if yes, remove file.
+    if os.path.exists(stm_file):
+        os.remove(stm_file)
+
+    # Check if the cp file exists, if yes, remove file.
+    if os.path.exists(cp_file):
+        os.remove(cp_file)
+
+    # Remove this order from the orders sqlite3 database table.
+    delete_order_from_db(restaurant_code=restaurant_code, order_id=order_id)

@@ -8,10 +8,10 @@ import logging
 from backend.order_queue import OrderQueue
 from backend.potlam_backend import update_status
 from backend.schemas import PostPollRequest, PostPollResponse
-from database.cloudprint_db import update_order_status_in_db
+from database.cloudprint_db import update_order_status_in_db, delete_order_from_db
 from libs.auth import Auth
 from libs.constants import get_constant
-from replace_template import create_print_file
+from replace_template import create_print_file, cleanup
 
 router = APIRouter(prefix="/cloudprint")
 
@@ -122,6 +122,11 @@ def post_poll(restaurant_code: str,
     return response
 
 
-@router.delete("/{restaurant_code}")
-def delete():
-    return Response(status_code=200, content="Delete Call Response.")
+@router.delete("/{restaurant_code}", status_code=status.HTTP_200_OK)
+def delete(restaurant_code: str, jobToken: str):
+
+    # Cleanup by removing stm and cp temporary files and delete the sqlite3 database table entry for this order.
+    cleanup(restaurant_code, jobToken)
+
+    # Return 200
+    return Response(status_code=200, content="Success.")
