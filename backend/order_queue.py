@@ -83,8 +83,10 @@ class OrderQueue:
         # Get the next order that will be popped without popping the queue.
         next_order = self.queues.get(restaurant_code.lower())[queue_length - 1]
 
-        # Construct the job token, takes the form: <restaurant_code>_<order_id>_<cloud_print_id>
-        token = restaurant_code.lower() + "_" + next_order.order_id + "_" + next_order.cloud_print_id
+        # Construct the job token, takes the form: <restaurant_code>_<order_id>_<cloud_print_id>_<uuid>
+        # the UUID in this token is used in the DELETE method to remove tmp files and db entry.
+        token = (restaurant_code.lower() + "_" + next_order.order_id + "_" + next_order.cloud_print_id
+                 + "_" + next_order.uuid)
 
         return token
 
