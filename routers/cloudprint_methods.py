@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, Header, status
+from fastapi import APIRouter, Request, Header, status
 from fastapi.responses import Response
 
 import logging
@@ -123,10 +123,16 @@ def post_poll(restaurant_code: str,
 
 
 @router.delete("/{restaurant_code}", status_code=status.HTTP_200_OK)
-def delete(restaurant_code: str, jobToken: str):
+async def delete(restaurant_code: str, request: Request):
 
-    # Cleanup by removing stm and cp temporary files and delete the sqlite3 database table entry for this order.
-    cleanup(restaurant_code, jobToken)
+    body = await request.json()
+    job_token = body.get("jobToken")
+
+    logger.info(f"Received DELETE with [job_token:{job_token}]")
+
+    if job_token:
+        # Cleanup by removing stm and cp temporary files and delete the sqlite3 database table entry for this order.
+        cleanup(restaurant_code, job_token=job_token)
 
     # Return 200
     return Response(status_code=200, content="Success.")
