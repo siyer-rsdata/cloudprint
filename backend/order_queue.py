@@ -72,3 +72,19 @@ class OrderQueue:
                     return True
 
             return False
+
+    def get_token_for_next_order(self, restaurant_code: str) -> str:
+
+        # This function will be called / used only if the queue has items;
+        # that is, is_job_ready function returns true for this restaurant.
+
+        queue_length = self.length(restaurant_code)
+
+        # Get the next order that will be popped without popping the queue.
+        next_order = self.queues.get(restaurant_code.lower())[queue_length - 1]
+
+        # Construct the job token, takes the form: <restaurant_code>_<order_id>_<cloud_print_id>
+        token = restaurant_code.lower() + "_" + next_order.order_id + "_" + next_order.cloud_print_id
+
+        return token
+

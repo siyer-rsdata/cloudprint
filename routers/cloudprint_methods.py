@@ -93,11 +93,16 @@ def post_poll(restaurant_code: str,
         jobReady = queue.is_job_ready(restaurant_code)
         queue_len = queue.length(restaurant_code)
 
-        is_order_available_in_db(restaurant_code)
+        # is_order_available_in_db(restaurant_code)
+
+        job_token = None
+        if jobReady:
+            job_token = queue.get_token_for_next_order(restaurant_code)
 
         # construct the PostPollResponse object.
         response = PostPollResponse(jobReady=str(jobReady).lower(),
                                     mediaTypes=["application/vnd.star.starprnt"],
+                                    jobToken=job_token,
                                     deleteMethod="GET"
                                     )
 
