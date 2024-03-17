@@ -8,7 +8,7 @@ import logging
 from backend.order_queue import OrderQueue
 from backend.potlam_backend import update_status
 from backend.schemas import PostPollRequest, PostPollResponse
-from database.cloudprint_db import is_order_available_in_db, update_order_status_in_db
+from database.cloudprint_db import update_order_status_in_db
 from libs.auth import Auth
 from libs.constants import get_constant
 from replace_template import create_print_file
@@ -95,6 +95,8 @@ def post_poll(restaurant_code: str,
 
         # is_order_available_in_db(restaurant_code)
 
+        # Create job token for the next order that will be popped,
+        # token will have to be sent in the Post Poll response only if jobReady = true
         job_token = None
         if jobReady:
             job_token = queue.get_token_for_next_order(restaurant_code)
@@ -103,7 +105,7 @@ def post_poll(restaurant_code: str,
         response = PostPollResponse(jobReady=str(jobReady).lower(),
                                     mediaTypes=["application/vnd.star.starprnt"],
                                     jobToken=job_token,
-                                    deleteMethod="GET"
+                                    deleteMethod="DELETE"
                                     )
 
         logger.info(f"No of orders in queue for [{restaurant_code}]: [{queue_len}]")
