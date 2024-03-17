@@ -13,7 +13,7 @@ from libs.auth import Auth
 from libs.constants import get_constant
 from replace_template import create_print_file
 
-router = APIRouter(prefix="/print")
+router = APIRouter(prefix="/cloudprint")
 
 auth = Auth()
 

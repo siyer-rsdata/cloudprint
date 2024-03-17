@@ -10,7 +10,10 @@ from setup import init
 from database.cloudprint_db import db_engine
 from backend.cron_methods import cloudprint_orders
 
-app = FastAPI(title="Cloud Print Service - v2.0")
+app = FastAPI(title="RSData POTLAM CloudPrint Service",
+              summary="REST API Service that integrates with POTLAM backend and a StarMicronics CloudPRNT device. "
+                      "This service implements the HTTP methods invoked by the CloudPRNT printer",
+              version="1.0.0")
 
 # Register router with the FastAPI app.
 app.include_router(router)
