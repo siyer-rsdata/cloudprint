@@ -119,8 +119,8 @@ def cleanup(restaurant_code: str, job_token: str):
     uuid = job_token.split("_")[-1]
     order_id = job_token.split("_")[1]
 
-    logger.info(f"Received DELETE for order. [{restaurant_code}] [order.id:{order_id}] [uuid:{uuid}]. "
-                f"Cleaning up by removing tmp files and Database entry...")
+    logger.info(f"Cleaning up by removing tmp files and Database entry. [{restaurant_code}] "
+                f"[order.id:{order_id}] [uuid:{uuid}].")
 
     stm_file = os.path.join(get_constant("CLOUDPRINT_ORDER_TEMP_FOLDER"), uuid + ".stm")
     cp_file = os.path.join(get_constant("CLOUDPRINT_ORDER_TEMP_FOLDER"), uuid + ".cp")
