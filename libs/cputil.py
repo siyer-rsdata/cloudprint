@@ -23,7 +23,7 @@ def create_cp_order(tmp_file: str, cp_file: str) -> str:
         # Typically, an exit status of 0 for returncode indicates that subprocess ran successfully.
         # We are performing an additional check whether the cp file exists.
         if result.returncode == 0 and os.path.exists(cp_file):
-            logger.info(f"cp file: {cp_file} successfully created.")
+            logger.info(f"cp file: [{cp_file}] successfully created.")
 
             return cp_file
 

@@ -123,16 +123,13 @@ def post_poll(restaurant_code: str,
 
 
 @router.delete("/{restaurant_code}", status_code=status.HTTP_200_OK)
-async def delete(restaurant_code: str, request: Request):
+async def delete(restaurant_code: str, token: str):
 
-    body = await request.json()
-    job_token = body.get("jobToken")
+    logger.info(f"Received DELETE with [job_token:{token}]")
 
-    logger.info(f"Received DELETE with [job_token:{job_token}]")
-
-    if job_token:
+    if token:
         # Cleanup by removing stm and cp temporary files and delete the sqlite3 database table entry for this order.
-        cleanup(restaurant_code, job_token=job_token)
+        cleanup(restaurant_code, job_token=token)
 
     # Return 200
     return Response(status_code=200, content="Success.")
