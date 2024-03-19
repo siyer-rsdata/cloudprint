@@ -2,7 +2,7 @@ import os.path
 
 import logging
 
-from backend.schemas import PrintOrderItem, Toppings, Topping
+from backend.schemas import PrintOrderItem, Toppings, Topping, BodyItem
 from database.cloudprint_db import delete_order_from_db
 from libs.constants import get_constant
 from libs.cputil import create_cp_order
@@ -81,15 +81,25 @@ def extract_order_details(print_order: PrintOrderItem) -> list:
     return order_item_rows
 
 
-def create_print_file(uuid: str, logo_url: str, title: str, datetime: str, print_order: PrintOrderItem,
-                      footer: str) -> str:
+def create_print_file(order: BodyItem) -> str:
     # Print order template file
+
+    uuid = order.uuid
+    logo_url = order.restaurant_details.logo_url
+    title = order.restaurant_details.name
+    restaurant_address = order.restaurant_details.address
+    restaurant_phone = order.restaurant_details.phone
+    datetime = order.print_order.orderdate + " " + order.print_order.ordertime
+    print_order = order.print_order
+    footer = order.restaurant_details.message
 
     order_items = extract_order_details(print_order)
 
     order_values = {
         "LOGO_IMAGE_URL": logo_url,
         "ORDER_RECEIPT_TITLE": title,
+        "RESTAURANT_ADDRESS": restaurant_address,
+        "RESTAURANT_PHONE_NO": restaurant_phone,
         "ORDER_ID": print_order.order_id,
         "ORDER_DATETIME": datetime,
         "ORDER_ITEM_ROWS": order_items,

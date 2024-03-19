@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, Request, Header, status
+from fastapi import APIRouter, Header, status
 from fastapi.responses import Response
 
 import logging
@@ -8,7 +8,7 @@ import logging
 from backend.order_queue import OrderQueue
 from backend.potlam_backend import update_status
 from backend.schemas import PostPollRequest, PostPollResponse
-from database.cloudprint_db import update_order_status_in_db, delete_order_from_db
+from database.cloudprint_db import update_order_status_in_db
 from libs.auth import Auth
 from libs.constants import get_constant
 from replace_template import create_print_file, cleanup
@@ -41,14 +41,7 @@ def get_print_job(restaurant_code: str):
                         f"[cloudprint_id:{order.cloud_print_id}] "
                         f"[order date/time:{order.print_order.orderdate} {order.print_order.ordertime}]")
 
-            cp_file = create_print_file(
-                uuid=order.uuid,
-                logo_url=order.restaurant_details.logo_url,
-                title=order.restaurant_details.name,
-                datetime=order.print_order.orderdate + " " + order.print_order.ordertime,
-                print_order=order.print_order,
-                footer=order.restaurant_details.message
-            )
+            cp_file = create_print_file(order)
 
             # Update status of this order in the POTLAM Backend
             update_status(cloud_print_id=order.cloud_print_id,
