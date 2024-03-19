@@ -8,12 +8,19 @@
 {RESTAURANT_PHONE_NO}
 
 [magnify: width 3; height 2]Order #{ORDER_ID}[magnify]
-[align: left]\
+{ORDER_DATETIME}
 
+[align: left]\
 {ORDER_ITEM_ROWS}
+
+[column: left: Sub Total:; right: ${SUB_TOTAL}]
+[column: left: Tax:; right: ${TAX}]
+[column: left: Tips:; right: ${TIPS}]
+[column: left: Discount:; right: ${DISCOUNT}]
+[column: left: Final Total:; right: ${FINAL_TOTAL}]
 
 [align: centre]
 {FOOTER_MESSAGE}
-{ORDER_DATETIME}
+
 
 [cut: feed; partial]

@@ -95,6 +95,12 @@ def create_print_file(order: BodyItem) -> str:
 
     order_items = extract_order_details(print_order)
 
+    sub_total = order.print_order.subtotal
+    tax = order.print_order.tax
+    tips = order.print_order.tips
+    discount = order.print_order.discount
+    final_total = order.print_order.total
+
     order_values = {
         "LOGO_IMAGE_URL": logo_url,
         "ORDER_RECEIPT_TITLE": title,
@@ -103,6 +109,11 @@ def create_print_file(order: BodyItem) -> str:
         "ORDER_ID": print_order.order_id,
         "ORDER_DATETIME": datetime,
         "ORDER_ITEM_ROWS": order_items,
+        "SUB_TOTAL": sub_total,
+        "TAX": tax,
+        "TIPS": tips,
+        "DISCOUNT": discount,
+        "FINAL_TOTAL": final_total,
         "FOOTER_MESSAGE": footer
     }
 
