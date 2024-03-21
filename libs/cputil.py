@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 def create_cp_order(tmp_file: str, cp_file: str) -> str:
     command = [
         get_constant("CPUTIL_LOCATION"),
+        "dither",
         "decode",
         get_constant("CPUTIL_OUTPUT_FORMAT"),
         tmp_file,
