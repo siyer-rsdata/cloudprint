@@ -11,6 +11,7 @@ from backend.schemas import PostPollRequest, PostPollResponse
 from database.cloudprint_db import update_order_status_in_db
 from libs.auth import Auth
 from libs.constants import get_constant
+from libs.cputil import decode_asb_status
 from replace_template import create_print_file, cleanup
 
 router = APIRouter(prefix="/cloudprint")
@@ -78,6 +79,9 @@ def get_print_job(restaurant_code: str):
 def post_poll(restaurant_code: str,
               request: PostPollRequest,
               Authorization: Optional[str] = Header(None)) -> PostPollResponse:
+
+    decode_asb_status(request.statusCode, request.status)
+
     auth_response = auth.is_authorized(Authorization, restaurant_code.lower())
 
     if auth_response.status:
@@ -126,3 +130,4 @@ async def delete(restaurant_code: str, token: str):
 
     # Return 200
     return Response(status_code=200, content="Success.")
+
